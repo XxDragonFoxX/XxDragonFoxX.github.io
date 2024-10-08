@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в админ-панель</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Вход в админ-панель</h2>
+    <form id="loginForm">
+        <label for="username">Логин:</label>
+        <input type="text" id="username" required><br>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" required><br>
+        <button type="button" onclick="login()">Войти</button>
+    </form>
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'Orion' && password === '9157') {
+                sessionStorage.setItem('isAdmin', true);
+                window.location.href = 'admin.html';
+            } else {
+                alert('Неправильный логин или пароль!');
+            }
+        }
+    </script>
+	
+	    <footer>
+        <p>Для администраторов: <a href="login.html">Вход в админ-панель</a></p>
+    </footer>
+</body>
+</html>
