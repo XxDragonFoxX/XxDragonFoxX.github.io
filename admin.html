@@ -52,56 +52,51 @@
     </section>
     
     <script>
-        // Проверка, является ли пользователь администратором
-        if (!sessionStorage.getItem('isAdmin')) {
-            window.location.href = 'index.html';
-        }
+    // Вставьте сюда вашу конфигурацию Firebase
+    const firebaseConfig = {
+    apiKey: "AIzaSyBpMx5PLFpAQ9zLb1b5CkNevkcZMza0A",
+    authDomain: "dragonshop-9a4c0.firebaseapp.com",
+    projectId: "dragonshop-9a4c0",
+    storageBucket: "dragonshop-9a4c0.appspot.com",
+    messagingSenderId: "217202163115",
+    appId: "1:217202163115:web:d082627b55417cc1534d0",
+    measurementId: "G-8FVX346663"
+	};
 
-        // Firebase конфигурация
-        const firebaseConfig = {
-            apiKey: "your_api_key_here",
-            authDomain: "your_auth_domain_here",
-            databaseURL: "your_database_url_here",
-            projectId: "your_project_id_here",
-            storageBucket: "your_storage_bucket_here",
-            messagingSenderId: "your_messaging_sender_id_here",
-            appId: "your_app_id_here",
-        };
+    // Инициализация Firestore
+const db = firebase.firestore();
 
-        // Инициализация Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+// Функция для загрузки чатов из Firestore
+function loadChats() {
+    const chatsDiv = document.getElementById('chats');
+    db.collection('chats').get().then((querySnapshot) => {
+        chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
 
-        // Функция для загрузки чатов из Firestore
-        function loadChats() {
-            const chatsDiv = document.getElementById('chats');
-            db.collection('chats').get().then((querySnapshot) => {
-                chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
-                querySnapshot.forEach((doc) => {
-                    const chatData = doc.data();
-                    const chatDiv = document.createElement('div');
-                    chatDiv.className = 'chat';
+        querySnapshot.forEach((doc) => {
+            const chatData = doc.data();
+            const chatDiv = document.createElement('div');
+            chatDiv.className = 'chat';
 
-                    const chatHeader = document.createElement('div');
-                    chatHeader.className = 'chat-header';
-                    chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
-                    chatDiv.appendChild(chatHeader);
+            const chatHeader = document.createElement('div');
+            chatHeader.className = 'chat-header';
+            chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
+            chatDiv.appendChild(chatHeader);
 
-                    chatData.messages.forEach((msg) => {
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = 'message';
-                        messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
-                        chatDiv.appendChild(messageDiv);
-                    });
-
-                    chatsDiv.appendChild(chatDiv);
-                });
-            }).catch((error) => {
-                console.error("Ошибка при загрузке чатов: ", error);
+            chatData.messages.forEach((msg) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+                chatDiv.appendChild(messageDiv);
             });
-        }
 
-        document.addEventListener('DOMContentLoaded', loadChats);
-    </script>
+            chatsDiv.appendChild(chatDiv);
+        });
+    }).catch((error) => {
+        console.error("Ошибка при загрузке чатов: ", error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadChats);
+</script>
 </body>
 </html>
