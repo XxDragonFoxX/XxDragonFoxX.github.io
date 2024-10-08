@@ -356,6 +356,28 @@ body.dark-theme .chat-header {
 .chat-header.dragging {
         cursor: grabbing; /* Изменение указателя во время перетаскивания */
     }
+	
+	section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.service-category {
+    max-width: 60%;
+}
+
+.dragon-container {
+    max-width: 30%;
+    text-align: center;
+}
+
+.dragon-image {
+    width: 100%;
+    height: auto;
+    opacity: 0.7; /* Регулируйте видимость по необходимости */
+}
 </style>
 </head>
 <body>
@@ -387,10 +409,6 @@ body.dark-theme .chat-header {
             </li>
         </ul>
     </div>
-	
-	<div class="dragon-container">
-    <img src="dragon-silhouette.html" alt="Силуэт дракона" class="dragon-image">
-	</div>
 
     <!-- Категория услуг o1-preview -->
     <div class="service-category">
@@ -579,6 +597,8 @@ body.dark-theme .chat-header {
         offsetY = event.clientY - chatModal.getBoundingClientRect().top;
         chatHeader.classList.add('dragging');
     });
+	
+	
 
     document.addEventListener('mousemove', (event) => {
         if (isDragging) {
@@ -600,6 +620,13 @@ body.dark-theme .chat-header {
         isDragging = false;
         chatHeader.classList.remove('dragging');
     });
+	
+	 <!-- Добавьте контейнер для изображения дракона -->
+        <div class="dragon-container">
+            <img src="image.png" alt="Силуэт дракона" class="dragon-image">
+        </div>
+    </section>
+	</div>
     </script>
 </body>
 </html>
