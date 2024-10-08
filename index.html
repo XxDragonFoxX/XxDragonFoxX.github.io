@@ -110,26 +110,67 @@ document.addEventListener('DOMContentLoaded', loadChats);
     }
 
     section {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        padding: 20px;
-        position: relative;
-        z-index: 2;
-    }
+    display: flex;
+    flex-wrap: nowrap; /* Не переносить элементы на новую строку */
+    align-items: stretch; /* Позволяет всем блокам иметь одинаковую высоту */
+    justify-content: center;
+    gap: 10px; /* Уменьшено значение, чтобы блоки были ближе друг к другу */
+    padding: 0; /* Убираем padding, чтобы блоки находились выше */
+    position: relative;
+    z-index: 2;
+}
 
-    .service-category {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+.dragon-container {
+    flex-basis: 20%; /* Контейнер с изображением дракона занимает 10% ширины секции */
+    max-width: 250px; /* Ограничение максимальной ширины контейнера */
+    text-align: center;
+    margin: 0; /* Убираем отступы, чтобы поднять выше */
+	position: relative; /* или absolute для более точного позиционирования */
+    top: 150px; /* Смещение вверх */
+    left: 100px; /* Смещение вправо */
+}
+
+.dragon-image {
+    width: 100%;
+    height: auto;
+    opacity: 0.7; /* Сделайте дракона более прозрачным, чтобы не отвлекать внимание */
+}
+
+.service-category {
+    flex-basis: 15%;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px; /* Уменьшение padding для уменьшения отступов внутри блока */
+    margin: -280px 0 0 0; /* Отрицательный верхний отступ для поднятия блоков */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Помещаем элементы ближе к началу */
+}
+
+.service-category h3 {
+    margin: 5px 0; /* Уменьшаем отступ сверху и снизу заголовка */
+}
+
+.service-category ul {
+    list-style-type: none;
+    padding: 0; /* Убираем padding у списка */
+    margin: 5px 0; /* Уменьшаем отступ между заголовком и списком */
+}
+
+.service-category li {
+    margin-bottom: 5px; /* Уменьшаем расстояние между элементами списка */
+}
+
+
+.service-category:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    transform-origin: center;
+}
 
     .service-category:hover {
         transform: scale(1.05);
@@ -356,29 +397,6 @@ body.dark-theme .chat-header {
 .chat-header.dragging {
         cursor: grabbing; /* Изменение указателя во время перетаскивания */
     }
-	
-	section {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.service-category {
-    max-width: 60%;
-}
-
-.dragon-container {
-    flex-basis: 25%; /* Или другой подходящий процент, чтобы контейнер занимал нужное место */
-    text-align: center;
-    margin-top: 20px; /* Это позволит изображению дракона немного отойти от остальных элементов */
-}
-
-.dragon-image {
-    width: auto;
-    height: 200px; /* Регулируйте высоту изображения в зависимости от вашего макета */
-    opacity: 0.7; /* Сделайте дракона более прозрачным, чтобы не отвлекать внимание */
-}
 </style>
 </head>
 <body>
@@ -390,6 +408,13 @@ body.dark-theme .chat-header {
     <div class="services-header">
         <h2>Услуги моделей ChatGPT</h2>
     </div>
+	
+	
+<!-- Контейнер для изображения дракона -->
+        <div class="dragon-container">
+            <img src="images/dragon.png" alt="Силуэт дракона" class="dragon-image">
+        </div>
+    </section>
 
     <section>
         <!-- Категория услуг GPT-4o -->
@@ -413,7 +438,7 @@ body.dark-theme .chat-header {
 
     <!-- Категория услуг o1-preview -->
     <div class="service-category">
-        <h3>GPT-4o Preview</h3>
+        <h3>o1-preview</h3>
         <ul>
             <li>
                 <p>1 вопрос - 10 рублей</p>
@@ -432,7 +457,7 @@ body.dark-theme .chat-header {
 
     <!-- Категория услуг Редактирование текста с GPT-4o with canvas -->
     <div class="service-category">
-        <h3>Редактирование текста с GPT-4o</h3>
+        <h3>Редактура с GPT-4o with canvas</h3>
         <ul>
             <li>
                 <p>500 символов - 30 рублей</p>
@@ -449,12 +474,6 @@ body.dark-theme .chat-header {
         </ul>
     </div>
 </section>
-
-<!-- Контейнер для изображения дракона -->
-        <div class="dragon-container">
-            <img src="image.png" alt="Силуэт дракона" class="dragon-image">
-        </div>
-    </section>
 
     <div id="chat-modal" class="chat-modal">
         <div class="chat-header">
