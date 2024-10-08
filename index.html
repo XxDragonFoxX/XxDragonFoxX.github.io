@@ -369,14 +369,15 @@ body.dark-theme .chat-header {
 }
 
 .dragon-container {
-    max-width: 30%;
+    flex-basis: 25%; /* Или другой подходящий процент, чтобы контейнер занимал нужное место */
     text-align: center;
+    margin-top: 20px; /* Это позволит изображению дракона немного отойти от остальных элементов */
 }
 
 .dragon-image {
-    width: 100%;
-    height: auto;
-    opacity: 0.7; /* Регулируйте видимость по необходимости */
+    width: auto;
+    height: 200px; /* Регулируйте высоту изображения в зависимости от вашего макета */
+    opacity: 0.7; /* Сделайте дракона более прозрачным, чтобы не отвлекать внимание */
 }
 </style>
 </head>
@@ -448,6 +449,12 @@ body.dark-theme .chat-header {
         </ul>
     </div>
 </section>
+
+<!-- Контейнер для изображения дракона -->
+        <div class="dragon-container">
+            <img src="image.png" alt="Силуэт дракона" class="dragon-image">
+        </div>
+    </section>
 
     <div id="chat-modal" class="chat-modal">
         <div class="chat-header">
@@ -620,13 +627,6 @@ body.dark-theme .chat-header {
         isDragging = false;
         chatHeader.classList.remove('dragging');
     });
-	
-	 <!-- Добавьте контейнер для изображения дракона -->
-        <div class="dragon-container">
-            <img src="image.png" alt="Силуэт дракона" class="dragon-image">
-        </div>
-    </section>
-	</div>
     </script>
 </body>
 </html>
