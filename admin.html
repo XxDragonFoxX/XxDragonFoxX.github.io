@@ -8,11 +8,26 @@
     <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>
+    <style>
+        #logoutButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Админ-панель</h1>
-    <h2>Добро пожаловать, администратор!</h2>
-    <div id="chats"></div>
+    <div style="text-align: center; background-color: black; color: white; padding: 10px;">
+        <h1>Админ-панель</h1>
+    </div>
+    <button id="logoutButton">Выйти</button>
+    <h2 style="text-align: center;">Чаты с пользователями</h2>
+    <div id="chats" style="text-align: center;"></div>
 
     <script>
         // Вставьте сюда вашу конфигурацию Firebase
@@ -61,6 +76,11 @@
 
         // Загрузка чатов при загрузке страницы
         document.addEventListener('DOMContentLoaded', loadChats);
+
+        // Логика выхода
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            window.location.href = 'login.html'; // Перенаправление на страницу логина
+        });
     </script>
 </body>
 </html>
