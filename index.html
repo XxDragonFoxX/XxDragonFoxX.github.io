@@ -5,6 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Драконьи услуги в сфере ИИ - ChatGPT от Ориона</title>
     <link rel="stylesheet" href="styles.css">
+	<!-- Firebase App (всегда подключать первым) -->
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+
+<!-- Firebase Database -->
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
+
+<script>
+    // Вставьте сюда вашу конфигурацию Firebase
+    const firebaseConfig = {
+    apiKey: "AIzaSyBpMx5PLFpAQ9zLb1b5CkNevkcZMza0A",
+    authDomain: "dragonshop-9a4c0.firebaseapp.com",
+    projectId: "dragonshop-9a4c0",
+    storageBucket: "dragonshop-9a4c0.appspot.com",
+    messagingSenderId: "217202163115",
+    appId: "1:217202163115:web:d082627b55417cc1534d0",
+    measurementId: "G-8FVX346663"
+	};
+
+    // Инициализация Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Ссылка на базу данных
+    const db = firebase.database();
+
+    // Функция для загрузки чатов из базы данных Firebase
+    function loadChats() {
+        const chatsDiv = document.getElementById('chats');
+        db.ref('chats').on('value', (snapshot) => {
+            chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
+
+            const chats = snapshot.val();
+            for (let chatId in chats) {
+                const chat = chats[chatId];
+                
+                const chatDiv = document.createElement('div');
+                chatDiv.className = 'chat';
+                
+                const chatHeader = document.createElement('div');
+                chatHeader.className = 'chat-header';
+                chatHeader.textContent = `Чат с пользователем: ${chatId}`;
+                chatDiv.appendChild(chatHeader);
+                
+                for (let msgId in chat.messages) {
+                    const msg = chat.messages[msgId];
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+                    chatDiv.appendChild(messageDiv);
+                }
+
+                chatsDiv.appendChild(chatDiv);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadChats();
+    });
+</script>
     <style>
         body {
             font-family: Arial, sans-serif;

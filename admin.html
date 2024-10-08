@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        #chat-management {
+            padding: 20px;
+        }
+        #chats {
+            margin-top: 20px;
+        }
+        .chat {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .chat-header {
+            font-weight: bold;
+        }
+        .message {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Админ-панель</h1>
+        <p>Добро пожаловать, администратор!</p>
+    </header>
+    
+    <section id="chat-management">
+        <h2>Чаты с пользователями</h2>
+        <div id="chats">
+            <!-- Здесь будут отображаться доступные чаты -->
+        </div>
+    </section>
+    
+    <script>
+        // Проверка, является ли пользователь администратором
+        if (!sessionStorage.getItem('isAdmin')) {
+            window.location.href = 'index.html';
+        }
+
+        // Пример данных чатов (для демонстрации, заменить на запрос к серверу)
+        const chatData = [
+            {
+                userId: 'user1',
+                messages: [
+                    { sender: 'user', message: 'Здравствуйте! Я заинтересовался этим товаром.' },
+                    { sender: 'admin', message: 'Спасибо за ваш интерес к этому товару. Как я могу вам помочь?' }
+                ]
+            },
+            {
+                userId: 'user2',
+                messages: [
+                    { sender: 'user', message: 'Добрый день! Можно узнать подробнее о скидке?' },
+                    { sender: 'admin', message: 'Конечно, расскажу вам подробнее.' }
+                ]
+            }
+        ];
+
+        // Загрузка чатов на страницу
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatsDiv = document.getElementById('chats');
+            
+            chatData.forEach(chat => {
+                const chatDiv = document.createElement('div');
+                chatDiv.className = 'chat';
+                
+                const chatHeader = document.createElement('div');
+                chatHeader.className = 'chat-header';
+                chatHeader.textContent = `Чат с пользователем: ${chat.userId}`;
+                chatDiv.appendChild(chatHeader);
+                
+                chat.messages.forEach(msg => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+                    chatDiv.appendChild(messageDiv);
+                });
+                
+                chatsDiv.appendChild(chatDiv);
+            });
+        });
+    </script>
+</body>
+</html>
