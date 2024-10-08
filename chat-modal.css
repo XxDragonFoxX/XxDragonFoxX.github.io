@@ -1,0 +1,15 @@
+<div id="chat-modal" class="chat-modal">
+    <div class="chat-header">
+        <span>Чат с Орионом</span>
+        <button onclick="closeChat()">&times;</button>
+    </div>
+    <div class="chat-body" id="chat-body">
+        <div class="message user-message">
+            Здравствуйте! Я заинтересовался этим товаром:
+        </div>
+    </div>
+    <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Введите сообщение">
+        <button onclick="sendMessage()">Отправить</button>
+    </div>
+</div>
