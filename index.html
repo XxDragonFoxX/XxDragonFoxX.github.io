@@ -23,45 +23,41 @@
     measurementId: "G-8FVX346663"
 	};
 
-    // Инициализация Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Инициализация Firebase и Firestore
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(app);
 
-    // Ссылка на базу данных
-    const db = firebase.database();
+// Функция для загрузки чатов из Firestore
+function loadChats() {
+    const chatsDiv = document.getElementById('chats');
+    db.collection('chats').get().then((querySnapshot) => {
+        chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
 
-    // Функция для загрузки чатов из базы данных Firebase
-    function loadChats() {
-        const chatsDiv = document.getElementById('chats');
-        db.ref('chats').on('value', (snapshot) => {
-            chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
+        querySnapshot.forEach((doc) => {
+            const chatData = doc.data();
+            const chatDiv = document.createElement('div');
+            chatDiv.className = 'chat';
 
-            const chats = snapshot.val();
-            for (let chatId in chats) {
-                const chat = chats[chatId];
-                
-                const chatDiv = document.createElement('div');
-                chatDiv.className = 'chat';
-                
-                const chatHeader = document.createElement('div');
-                chatHeader.className = 'chat-header';
-                chatHeader.textContent = `Чат с пользователем: ${chatId}`;
-                chatDiv.appendChild(chatHeader);
-                
-                for (let msgId in chat.messages) {
-                    const msg = chat.messages[msgId];
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message';
-                    messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
-                    chatDiv.appendChild(messageDiv);
-                }
+            const chatHeader = document.createElement('div');
+            chatHeader.className = 'chat-header';
+            chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
+            chatDiv.appendChild(chatHeader);
 
-                chatsDiv.appendChild(chatDiv);
-            }
+            chatData.messages.forEach((msg) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+                chatDiv.appendChild(messageDiv);
+            });
+
+            chatsDiv.appendChild(chatDiv);
         });
-    }
+    }).catch((error) => {
+        console.error("Ошибка при загрузке чатов: ", error);
+    });
+}
 
-    document.addEventListener('DOMContentLoaded', function() {
-        loadChats();
+document.addEventListener('DOMContentLoaded', loadChats);
     });
 </script>
     <style>

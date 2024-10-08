@@ -4,102 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ-панель</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="chat-modal.css">
     <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        #chat-management {
-            padding: 20px;
-        }
-        #chats {
-            margin-top: 20px;
-        }
-        .chat {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
-        .chat-header {
-            font-weight: bold;
-        }
-        .message {
-            margin-bottom: 5px;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <h1>Админ-панель</h1>
-        <p>Добро пожаловать, администратор!</p>
-    </header>
-    
-    <section id="chat-management">
-        <h2>Чаты с пользователями</h2>
-        <div id="chats">
-            <!-- Здесь будут отображаться доступные чаты -->
-        </div>
-    </section>
-    
+    <h1>Админ-панель</h1>
+    <h2>Добро пожаловать, администратор!</h2>
+    <div id="chats"></div>
+
     <script>
-    // Вставьте сюда вашу конфигурацию Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyBpMx5PLFpAQ9zLb1b5CkNevkcZMza0A",
-        authDomain: "dragonshop-9a4c0.firebaseapp.com",
-        projectId: "dragonshop-9a4c0",
-        storageBucket: "dragonshop-9a4c0.appspot.com",
-        messagingSenderId: "217202163115",
-        appId: "1:217202163115:web:d082627b55417cc1534d0",
-        measurementId: "G-8FVX346663"
-    };
+        // Вставьте сюда вашу конфигурацию Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
+            authDomain: "dragonshop-94ac0.firebaseapp.com",
+            projectId: "dragonshop-94ac0",
+            storageBucket: "dragonshop-94ac0.appspot.com",
+            messagingSenderId: "217202613105",
+            appId: "1:217202613105:web:dd022637b55417cc1534d0",
+            measurementId: "G-8FVX04S663"
+        };
 
-    // Инициализация Firebase
-    firebase.initializeApp(firebaseConfig);
+        // Инициализация Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-    // Инициализация Firestore
-    const db = firebase.firestore();
+        // Функция для загрузки чатов из Firestore
+        function loadChats() {
+            const chatsDiv = document.getElementById('chats');
+            db.collection('chats').onSnapshot((querySnapshot) => {
+                chatsDiv.innerHTML = ''; // Очистка предыдущих чатов
 
-    // Функция для загрузки чатов из Firestore
-    function loadChats() {
-        const chatsDiv = document.getElementById('chats');
-        db.collection('chats').get().then((querySnapshot) => {
-            chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
+                querySnapshot.forEach((doc) => {
+                    const chatData = doc.data();
+                    const chatDiv = document.createElement('div');
+                    chatDiv.className = 'chat';
 
-            querySnapshot.forEach((doc) => {
-                const chatData = doc.data();
-                const chatDiv = document.createElement('div');
-                chatDiv.className = 'chat';
+                    const chatHeader = document.createElement('div');
+                    chatHeader.className = 'chat-header';
+                    chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
+                    chatDiv.appendChild(chatHeader);
 
-                const chatHeader = document.createElement('div');
-                chatHeader.className = 'chat-header';
-                chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
-                chatDiv.appendChild(chatHeader);
+                    // Перебор сообщений в чате
+                    chatData.messages.forEach((msg) => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'message';
+                        messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+                        chatDiv.appendChild(messageDiv);
+                    });
 
-                chatData.messages.forEach((msg) => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message';
-                    messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
-                    chatDiv.appendChild(messageDiv);
+                    chatsDiv.appendChild(chatDiv);
                 });
-
-                chatsDiv.appendChild(chatDiv);
             });
-        }).catch((error) => {
-            console.error("Ошибка при загрузке чатов: ", error);
-        });
-    }
+        }
 
-    document.addEventListener('DOMContentLoaded', loadChats);
+        // Загрузка чатов при загрузке страницы
+        document.addEventListener('DOMContentLoaded', loadChats);
     </script>
 </body>
 </html>
