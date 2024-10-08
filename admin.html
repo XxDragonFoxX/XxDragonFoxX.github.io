@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ-панель</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,47 +57,51 @@
             window.location.href = 'index.html';
         }
 
-        // Пример данных чатов (для демонстрации, заменить на запрос к серверу)
-        const chatData = [
-            {
-                userId: 'user1',
-                messages: [
-                    { sender: 'user', message: 'Здравствуйте! Я заинтересовался этим товаром.' },
-                    { sender: 'admin', message: 'Спасибо за ваш интерес к этому товару. Как я могу вам помочь?' }
-                ]
-            },
-            {
-                userId: 'user2',
-                messages: [
-                    { sender: 'user', message: 'Добрый день! Можно узнать подробнее о скидке?' },
-                    { sender: 'admin', message: 'Конечно, расскажу вам подробнее.' }
-                ]
-            }
-        ];
+        // Firebase конфигурация
+        const firebaseConfig = {
+            apiKey: "your_api_key_here",
+            authDomain: "your_auth_domain_here",
+            databaseURL: "your_database_url_here",
+            projectId: "your_project_id_here",
+            storageBucket: "your_storage_bucket_here",
+            messagingSenderId: "your_messaging_sender_id_here",
+            appId: "your_app_id_here",
+        };
 
-        // Загрузка чатов на страницу
-        document.addEventListener('DOMContentLoaded', function() {
+        // Инициализация Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Функция для загрузки чатов из Firestore
+        function loadChats() {
             const chatsDiv = document.getElementById('chats');
-            
-            chatData.forEach(chat => {
-                const chatDiv = document.createElement('div');
-                chatDiv.className = 'chat';
-                
-                const chatHeader = document.createElement('div');
-                chatHeader.className = 'chat-header';
-                chatHeader.textContent = `Чат с пользователем: ${chat.userId}`;
-                chatDiv.appendChild(chatHeader);
-                
-                chat.messages.forEach(msg => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message';
-                    messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
-                    chatDiv.appendChild(messageDiv);
+            db.collection('chats').get().then((querySnapshot) => {
+                chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
+                querySnapshot.forEach((doc) => {
+                    const chatData = doc.data();
+                    const chatDiv = document.createElement('div');
+                    chatDiv.className = 'chat';
+
+                    const chatHeader = document.createElement('div');
+                    chatHeader.className = 'chat-header';
+                    chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
+                    chatDiv.appendChild(chatHeader);
+
+                    chatData.messages.forEach((msg) => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'message';
+                        messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+                        chatDiv.appendChild(messageDiv);
+                    });
+
+                    chatsDiv.appendChild(chatDiv);
                 });
-                
-                chatsDiv.appendChild(chatDiv);
+            }).catch((error) => {
+                console.error("Ошибка при загрузке чатов: ", error);
             });
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadChats);
     </script>
 </body>
 </html>
