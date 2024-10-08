@@ -12,4 +12,23 @@
         <input type="text" id="chat-input" placeholder="Введите сообщение">
         <button onclick="sendMessage()">Отправить</button>
     </div>
+	
+	<div class="dragon-container">
+    <img src="images/dragon.png" alt="Силуэт дракона" class="dragon-image">
+	</div>
 </div>
+
+.dragon-container {
+    position: absolute;
+    bottom: 20px; /* Расположите дракона внизу чата */
+    left: 20px; /* Смещение от левого края */
+    width: 100px; /* Задайте нужный размер */
+    height: auto;
+    opacity: 0.5; /* Чтобы сделать силуэт менее заметным */
+    z-index: -1; /* Чтобы дракон не перекрывал элементы чата */
+}
+
+.dragon-image {
+    width: 100%;
+    height: auto;
+}
