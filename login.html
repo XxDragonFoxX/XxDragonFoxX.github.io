@@ -16,6 +16,11 @@
         <button type="button" onclick="login()">Войти</button>
     </form>
     <script>
+	document.addEventListener('DOMContentLoaded', () => {
+    if (!sessionStorage.getItem('isAdmin')) {
+        window.location.href = 'login.html'; // Перенаправляем пользователя, если он не авторизован
+    }
+	});
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
