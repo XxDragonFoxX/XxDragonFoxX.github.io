@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ-панель</title>
     <link rel="stylesheet" href="chat-modal.css">
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <style>
         #logoutButton {
             display: block;
@@ -30,10 +30,6 @@
     <div id="chats" style="text-align: center;"></div>
 
     <script>
-        // Import the functions you need from the SDKs you need
-		import { initializeApp } from "firebase/app";
-		import { getFirestore } from "firebase/firestore";
-
 		// Your web app's Firebase configuration
 		const firebaseConfig = {
 		apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
@@ -44,10 +40,9 @@
 		appId: "1:217202613105:web:dd022637b55417cc1534d0",
 		measurementId: "G-8FVX04S663"
 		};
-
-		// Initialize Firebase
-		const app = initializeApp(firebaseConfig);
-		const db = getFirestore(app);
+		
+		const app = firebase.initializeApp(firebaseConfig);
+		const db = firebase.firestore();
 
         // Функция для загрузки чатов из Firestore
         function loadChats() {
@@ -76,14 +71,27 @@
 				});
 			});
 		}
+		
+		// Пример добавления сообщения в Firestore:
+		db.collection('chats').doc(userId).set({
+		messages: firebase.firestore.FieldValue.arrayUnion({
+        sender: 'user',
+        message: 'Ваше сообщение'
+		})
+		}, { merge: true }).then(() => {
+		console.log("Сообщение добавлено успешно");
+		}).catch((error) => {
+		console.error("Ошибка при добавлении сообщения: ", error);
+		});
 
         // Загрузка чатов при загрузке страницы
-        document.addEventListener('DOMContentLoaded', loadChats);
-
-        // Логика выхода
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            window.location.href = 'login.html'; // Перенаправление на страницу логина
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+    if (!sessionStorage.getItem('isAdmin')) {
+        window.location.href = 'login.html';
+    } else {
+        loadChats();
+	}
+});
     </script>
 </body>
 </html>

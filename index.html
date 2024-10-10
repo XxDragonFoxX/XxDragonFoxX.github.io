@@ -6,16 +6,10 @@
     <title>Драконьи услуги в сфере ИИ - ChatGPT от Ориона</title>
     <link rel="stylesheet" href="styles.css">
 	<!-- Firebase App (всегда подключать первым) -->
-<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
-
-<!-- Firebase Database -->
-<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>	
 
 <script>
-    // Import the functions you need from the SDKs you need
-	import { initializeApp } from "firebase/app";
-	import { getFirestore } from "firebase/firestore";
-
 	// Your web app's Firebase configuration
 	const firebaseConfig = {
 	apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
@@ -28,8 +22,8 @@
 };
 
 	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
-	const db = getFirestore(app);
+	const app = firebase.initializeApp(firebaseConfig);
+	const db = firebase.firestore();
 
 	// Функция для загрузки чатов из Firestore
 f	unction loadChats() {
