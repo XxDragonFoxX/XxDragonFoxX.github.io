@@ -30,20 +30,24 @@
     <div id="chats" style="text-align: center;"></div>
 
     <script>
-        // Вставьте сюда вашу конфигурацию Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
-            authDomain: "dragonshop-94ac0.firebaseapp.com",
-            projectId: "dragonshop-94ac0",
-            storageBucket: "dragonshop-94ac0.appspot.com",
-            messagingSenderId: "217202613105",
-            appId: "1:217202613105:web:dd022637b55417cc1534d0",
-            measurementId: "G-8FVX04S663"
-        };
+        // Import the functions you need from the SDKs you need
+		import { initializeApp } from "firebase/app";
+		import { getFirestore } from "firebase/firestore";
 
-        // Инициализация Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+		// Your web app's Firebase configuration
+		const firebaseConfig = {
+		apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
+		authDomain: "dragonshop-94ac0.firebaseapp.com",
+		projectId: "dragonshop-94ac0",
+		storageBucket: "dragonshop-94ac0.appspot.com",
+		messagingSenderId: "217202613105",
+		appId: "1:217202613105:web:dd022637b55417cc1534d0",
+		measurementId: "G-8FVX04S663"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const db = getFirestore(app);
 
         // Функция для загрузки чатов из Firestore
         function loadChats() {
