@@ -407,12 +407,6 @@ body.dark-theme .chat-header {
         <h2>Услуги моделей ChatGPT</h2>
     </div>
 	
-	<script>
-	const chats = {};
-	let userCounter = localStorage.getItem('userCounter') ? parseInt(localStorage.getItem('userCounter')) : 1;
-	let currentUserId = null;
-	<script>
-	
 <!-- Контейнер для изображения дракона -->
         <div class="dragon-container">
             <img src="images/dragon.png" alt="Силуэт дракона" class="dragon-image">
@@ -501,6 +495,10 @@ body.dark-theme .chat-header {
     <button id="theme-toggle" onclick="toggleTheme()" class="moon">&#x1F311;</button>
 
     <script>
+	const chats = {};
+	let userCounter = localStorage.getItem('userCounter') ? parseInt(localStorage.getItem('userCounter')) : 1;
+	let currentUserId = null;
+	
         // Массив для хранения сообщений чатов
         const chats = {};
     let currentUserId = null;
