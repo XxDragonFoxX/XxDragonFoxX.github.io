@@ -413,6 +413,9 @@ body.dark-theme .chat-header {
         <h2>Услуги моделей ChatGPT</h2>
     </div>
 	
+	const chats = {};
+	let userCounter = localStorage.getItem('userCounter') ? parseInt(localStorage.getItem('userCounter')) : 1;
+	let currentUserId = null;
 	
 <!-- Контейнер для изображения дракона -->
         <div class="dragon-container">
@@ -507,33 +510,40 @@ body.dark-theme .chat-header {
     let currentUserId = null;
 
     // Функция для открытия чата с указанным пользователем
-    function openChat(userId, service) {
-        currentUserId = userId;
-        const chatModal = document.getElementById('chat-modal');
-        chatModal.style.display = 'block';
-        const chatBody = document.getElementById('chat-body');
-        chatBody.innerHTML = ''; // Очистите предыдущее содержимое
-
-        // Проверьте, существует ли чат с данным пользователем
-        if (!chats[userId]) {
-            chats[userId] = [];
-            // Добавьте начальное сообщение пользователя
-            chats[userId].push({ sender: 'user', message: 'Здравствуйте! Я заинтересовался этим товаром: ' + service });
-
-            // Добавьте автоматический ответ администратора только один раз
-            chats[userId].push({ sender: 'admin', message: 'Спасибо за ваш интерес к этому товару. Скоро с вами свяжутся' });
-        }
-
-        // Отобразите все сообщения чата
-        chats[userId].forEach(msg => {
-            const messageElement = document.createElement('div');
-            messageElement.className = `message ${msg.sender}-message`;
-            messageElement.textContent = msg.message;
-            chatBody.appendChild(messageElement);
-        });
-
-        playNotificationSound();
+    function openChat(userId = null, service) {
+    // Генерируем userId для незарегистрированного пользователя
+    if (!userId) {
+        userId = `user_${userCounter}`;
+        userCounter++;
+        localStorage.setItem('userCounter', userCounter); // Сохраняем обновленный счетчик
     }
+    
+    currentUserId = userId;
+    const chatModal = document.getElementById('chat-modal');
+    chatModal.style.display = 'block';
+    const chatBody = document.getElementById('chat-body');
+    chatBody.innerHTML = ''; // Очистите предыдущее содержимое
+
+    // Проверьте, существует ли чат с данным пользователем
+    if (!chats[userId]) {
+        chats[userId] = [];
+        // Добавьте начальное сообщение пользователя
+        chats[userId].push({ sender: 'user', message: 'Здравствуйте! Я заинтересовался этим товаром: ' + service });
+
+        // Добавьте автоматический ответ администратора только один раз
+        chats[userId].push({ sender: 'admin', message: 'Спасибо за ваш интерес к этому товару. Скоро с вами свяжутся' });
+    }
+
+    // Отобразите все сообщения чата
+    chats[userId].forEach(msg => {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${msg.sender}-message`;
+        messageElement.textContent = msg.message;
+        chatBody.appendChild(messageElement);
+    });
+
+    playNotificationSound();
+	}
 
     // Функция для закрытия чата
     function closeChat() {

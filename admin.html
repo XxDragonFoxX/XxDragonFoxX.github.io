@@ -51,32 +51,31 @@
 
         // Функция для загрузки чатов из Firestore
         function loadChats() {
-            const chatsDiv = document.getElementById('chats');
-            db.collection('chats').onSnapshot((querySnapshot) => {
-                chatsDiv.innerHTML = ''; // Очистка предыдущих чатов
+		const chatsDiv = document.getElementById('chats');
+		db.collection('chats').onSnapshot((querySnapshot) => {
+			chatsDiv.innerHTML = ''; // Очистка предыдущих чатов
 
-                querySnapshot.forEach((doc) => {
-                    const chatData = doc.data();
-                    const chatDiv = document.createElement('div');
-                    chatDiv.className = 'chat';
+			querySnapshot.forEach((doc) => {
+				const chatData = doc.data();
+				const chatDiv = document.createElement('div');
+				chatDiv.className = 'chat';
 
-                    const chatHeader = document.createElement('div');
-                    chatHeader.className = 'chat-header';
-                    chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
-                    chatDiv.appendChild(chatHeader);
+				const chatHeader = document.createElement('div');
+				chatHeader.className = 'chat-header';
+				chatHeader.textContent = `Чат с пользователем: ${doc.id}`;
+				chatDiv.appendChild(chatHeader);
 
-                    // Перебор сообщений в чате
-                    chatData.messages.forEach((msg) => {
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = 'message';
-                        messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
-                        chatDiv.appendChild(messageDiv);
-                    });
+				chatData.messages.forEach((msg) => {
+					const messageDiv = document.createElement('div');
+					messageDiv.className = 'message';
+					messageDiv.textContent = `${msg.sender === 'user' ? 'Пользователь' : 'Администратор'}: ${msg.message}`;
+					chatDiv.appendChild(messageDiv);
+				});
 
-                    chatsDiv.appendChild(chatDiv);
-                });
-            });
-        }
+				chatsDiv.appendChild(chatDiv);
+				});
+			});
+		}
 
         // Загрузка чатов при загрузке страницы
         document.addEventListener('DOMContentLoaded', loadChats);
