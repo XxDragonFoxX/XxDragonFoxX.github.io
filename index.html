@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Драконьи услуги в сфере ИИ - ChatGPT от Ориона</title>
-    <link rel="stylesheet" href="styles.css">
 	<!-- Firebase App (всегда подключать первым) -->
 	<script type="module" src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
 	<script type="module" src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>	
@@ -56,7 +55,6 @@
 }
 
 document.addEventListener('DOMContentLoaded', loadChats);
-    });
 </script>
     <style>
         body {
@@ -495,12 +493,12 @@ body.dark-theme .chat-header {
     <button id="theme-toggle" onclick="toggleTheme()" class="moon">&#x1F311;</button>
 
     <script>
-	const chats = {};
+	let chats = {};
 	let userCounter = localStorage.getItem('userCounter') ? parseInt(localStorage.getItem('userCounter')) : 1;
 	let currentUserId = null;
 	
         // Массив для хранения сообщений чатов
-        const chats = {};
+        let chats = {};
     let currentUserId = null;
 
     // Функция для открытия чата с указанным пользователем
