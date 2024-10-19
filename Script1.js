@@ -3,15 +3,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebas
 import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
 
 // Конфигурация вашего приложения Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
-  authDomain: "dragonshop-94ac0.firebaseapp.com",
-  projectId: "dragonshop-94ac0",
-  storageBucket: "dragonshop-94ac0.appspot.com",
-  messagingSenderId: "217202613105",
-  appId: "1:217202613105:web:dd022637b55417cc1534d0",
-  measurementId: "G-8FVX04S663"
-};
+	const firebaseConfig = {
+	  apiKey: "AIzaSyBpMxP5LPFQAP9zL1bl5CcNxevkcZMzaOA",
+	  authDomain: "dragonshop-94ac0.firebaseapp.com",
+	  projectId: "dragonshop-94ac0",
+	  storageBucket: "dragonshop-94ac0.appspot.com",
+	  messagingSenderId: "217202613105",
+	  appId: "1:217202613105:web:dd022637b55417cc1534d0",
+	  measurementId: "G-8FVX04S663"
+	};
 
 // Инициализация Firebase
 const app = initializeApp(firebaseConfig);
