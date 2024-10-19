@@ -26,7 +26,7 @@
 	const db = firebase.firestore();
 
 	// Функция для загрузки чатов из Firestore
-f	unction loadChats() {
+	function loadChats() {
     const chatsDiv = document.getElementById('chats');
     db.collection('chats').onSnapshot((querySnapshot) => {
         chatsDiv.innerHTML = '';  // Очистка предыдущих чатов
